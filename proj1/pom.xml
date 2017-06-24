@@ -1,0 +1,143 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.metlife.trn</groupId>
+  <artifactId>proj1</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+
+    <packaging>jar</packaging>
+
+    <url>https://maven.apache.org</url>
+    
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <encoding>UTF-8</encoding>
+        <scala.tools.version>2.11</scala.tools.version>
+        <scala.version>2.11.8</scala.version>
+        <spark.version>2.0.0</spark.version>
+        <databricks.version>0.4.1</databricks.version>
+        <java.home>C:\Program Files\Java\jdk1.8.0_131</java.home>
+    </properties>
+    
+    
+    
+ <repositories>
+  <repository>
+    <id>HDP</id>
+    <name>HDP Releases</name>
+    <url>http://repo.hortonworks.com/content/repositories/releases/</url>
+  </repository>      
+  <repository>
+    <id>HDP2</id>
+    <name>HDP2 Releases</name>
+    <url>http://repo.hortonworks.com/content/groups/public</url>
+  </repository>   
+</repositories>
+
+<!--  
+    <pluginRepositories>
+        <pluginRepository>
+            <id>scala-tools.org</id>
+            <name>Scala-tools Maven2 Repository</name>
+            <url>http://scala-tools.org/repo-releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+-->
+	
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.tools.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_${scala.tools.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.databricks</groupId>
+            <artifactId>spark-xml_2.11</artifactId>
+            <version>${databricks.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
+		<dependency>
+		    <groupId>org.apache.hadoop</groupId>
+		    <artifactId>hadoop-common</artifactId>
+		    <version>2.7.1.2.4.2.10-1</version>
+		</dependency>
+		<dependency>
+		    <groupId>jdk.tools</groupId>
+		    <artifactId>jdk.tools</artifactId>
+		    <scope>system</scope>
+		    <systemPath>${java.home}/lib/tools.jar</systemPath>
+		    <version>1.8</version>
+	   	</dependency>
+    </dependencies>
+
+
+    <build>
+        <finalName>proj</finalName>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
+
+        <outputDirectory>target01</outputDirectory>
+        <plugins>
+
+            <plugin>
+                <!-- see http://davidb.github.com/scala-maven-plugin -->
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                          <!--   <goal>testCompile</goal>  -->
+                        </goals>
+                        <configuration>
+                            <args>
+                                <arg>-dependencyfile</arg>
+                                <arg>${project.build.directory}/.scala_dependencies</arg>
+                            </args>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4.2</version>
+                <configuration>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <name>proj1</name>
+</project>
